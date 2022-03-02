@@ -11,8 +11,13 @@ function listify(item){
 var mapLinksArr = linksArr.map(listify);
 console.log(`mapLinksArr = ${mapLinksArr}`);
 
-// const ulElement = document.createElement("ul");
-const htmlOut = ['<ul>',mapLinksArr,'</ul>'];
-console.log(htmlOut);
+var htmlOutArr = [];
+htmlOutArr.push('<ul>');
+for (let i=0;i<mapLinksArr.length;i++){
+    htmlOutArr.push(mapLinksArr[i]);
+}
+htmlOutArr.push('</ul>');
+console.log(`htmlOutArr = ${htmlOutArr}`);
+console.log(`getHtml(htmlOutArr) = ${getHtml(htmlOutArr)}`);
 
-document.getElementById('linkList').innerHTML = getHtml(htmlOut);
+document.getElementById('linkList').innerHTML = getHtml(htmlOutArr);

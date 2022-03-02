@@ -10,7 +10,9 @@ function listify(item){
 
 function listLinks(inArr){
     var listArr = [];
-    listArr = inArr.map(listify);
+    for (let i=0;i<inArr.length;i++){
+        listArr.push(listify(inArr[i]));
+    }
     var htmlOut = [`<ul>`,`<p> List of links </p>`,listArr,`</ul>`];
     console.log(htmlOut);
     document.getElementById('linkList').innerHTML = getHtml(htmlOut);

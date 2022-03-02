@@ -9,8 +9,8 @@ function listify(item){
 }
 
 function listLinks(inArr){
-    listArr = inArr.map(listify);
-    var htmlOut = [`<ul>`,`<p> List of links </p>`,listArr,`</ul>`]
+    var listArr = inArr.map(listify);
+    var htmlOut = [`<ul>`,`<p> List of links </p>`,listArr,`</ul>`];
     console.log(htmlOut);
     document.getElementById('linkList').innerHTML = getHtml(htmlOut);
 }

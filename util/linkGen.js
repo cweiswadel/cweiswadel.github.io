@@ -1,4 +1,4 @@
-var linksArr = ['index.html','page1.html']; 
+var linksArr = ['index.html','page1.html','listContentTEST.html']; 
 
 function getHtml(template) {
     return template.join('\n');

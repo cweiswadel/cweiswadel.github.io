@@ -1,4 +1,5 @@
-import { request } from "https://cdn.skypack.dev/@octokit/request"; 
+//import { request } from "https://cdn.skypack.dev/@octokit/request";
+import request as myModule from "https://cdn.skypack.dev/@octokit/request";
 const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
 console.log(`ghOwner = ${ghOwner} \n ghRepo = ${ghRepo}`);
 

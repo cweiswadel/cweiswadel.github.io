@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <title> listContentTEST -- CWEISWADEL.GITHUB>IO</title>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <h1>Listing Content from the Git Hub Repo</h1>
+    <!-- <div id="listContent"></div>
+    <script src="./util/listContentGitAPI.js"></script> -->
+
+    <h4> Raw String output of request</h4>
+    <div id="scriptGitHub"></div>
+    <div id="listContent_arrNames"></div>
+    <div id="listContent_arrPaths"></div>
+    <script type="module" id="apiCallScript"> 
+        import { request } from "https://cdn.skypack.dev/@octokit/request"; 
+        // import { request } from "https://cdn.skypack.dev/@octokit/request"; 
+        const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
+
+        const repoContent = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+            owner: ghOwner,
+            repo: ghRepo
+        }) 
+        
+        // const branchContent = await request('GET /repos/{owner}/{repo}/branches/{path}', {
+        //     owner: ghOwner,
+        //     repo: ghRepo
+        // }) 
+        
+        const outObjRepoCont = repoContent.data;
+        var outStr = JSON.stringify(outObjRepoCont, null, 2); // spacing level = 2 & pretty printing for JSON 
+        console.log(outStr);
+        
+        var arrNames = [];
+        var contentName = outObjRepoCont.forEach(function(obj){
+            arrNames.push(obj.name);
+        });
+        
+        
+        // document.getElementById('listContent_outStr').innerHTML = outStr;
+        document.getElementById('listContent_arrNames').innerHTML = arrNames;
+        console.log(arrNames);
+
+        var arrPaths = [];
+        var contentPath = outObjRepoCont.forEach(function(obj){
+            arrPaths.push(obj.path);
+        });
+        console.log(arrPaths);
+
+        //pretty print
+        function printListAsLink(element){
+            return `<li class="page-item"><a class="page-link" href="./${element}">${element}</a></li>`
+        }
+        var arrPaths = arrNames.map(printListAsLink);
+        var arrPaths = arrPaths.join("\n");
+        
+        document.getElementById('listContent_arrPaths').innerHTML = arrPaths;
+        console.log(arrPaths);
+        
+    </script>
+
+</body>
+
+<div id="homeButton"></div>
+<script src="./util/goHome.js"></script>
+
+</html>

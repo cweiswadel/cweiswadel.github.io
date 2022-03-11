@@ -9,14 +9,20 @@
 </head>
 
 <body>
-    <h1>Hello World</h1>
+    <h1>This is the Home Page for Collin's Test Website</h1>
     <p>I'm hosted with GitHub Pages.</p>
 
+
+    <h4> These links are generated via "./util/linkGen.js"</h4>
+    <p> A list of links based on the contents availble in the GitHub repo (.html) files only should be displayed.<br>
+        This way a dynamic list is populated and isn't hard coded.</p>
     <div id="linkList"></div>
-    <script src="./linkGen.js"></script>
+    <script src="./util/linkGen.js"></script>
 </body>
 
+<h4> This homeButton is from "./util/goHome.js" which will return to the index page when clicked</h4>
+<p> The idea here is to have a way to quickly return to the home page while on other pages, which requires it to be generated on other pages. </p>
 <div id="homeButton"></div>
-<script src="./goHome.js"></script>
+<script src="./util/goHome.js"></script>
 
 </html>

@@ -2,6 +2,17 @@
 // import request as myModule from "https://cdn.skypack.dev/@octokit/request";
 // import request from 'https://cdn.skypack.dev/@octokit/request.js';
 
+import("https://cdn.skypack.dev/@octokit/request")
+  .then(module => {
+    module.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        owner: "cweiswadel",
+        repo: "cweiswadel.github.io"
+    })
+  })
+  .catch(err => {
+    main.textContent = err.message;
+  });
+
 const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
 console.log(`ghOwner = ${ghOwner} \n ghRepo = ${ghRepo}`);
 

@@ -15,8 +15,8 @@
 
     <h4> Raw String output of request</h4>
     <div id="scriptGitHub"></div>
-    <div id="listContent_arrNames"></div>
-    <div id="listContent_arrPaths"></div>
+    <div id="listContent_arrNameAndType"></div>
+    <ul id="listContent_arrPaths"></ul>
     <script type="module" id="apiCallScript"> 
         import { request } from "https://cdn.skypack.dev/@octokit/request"; 
         // import { request } from "https://cdn.skypack.dev/@octokit/request"; 
@@ -34,17 +34,36 @@
         
         const outObjRepoCont = repoContent.data;
         var outStr = JSON.stringify(outObjRepoCont, null, 2); // spacing level = 2 & pretty printing for JSON 
-        console.log(outStr);
+        // console.log(outStr);
         
-        var arrNames = [];
+        var arrNameAndType = [];
+        var eleObj;
         var contentName = outObjRepoCont.forEach(function(obj){
-            arrNames.push(obj.name);
+            eleObj = {
+                name: obj.name,
+                type: obj.type
+            }
+            arrNameAndType.push(eleObj);
         });
-        
+        console.log(arrNameAndType);
+
+        // <ul class="fa-ul">
+        // <li><i class="fa-li fa fa-check-square"></i>List icons (like these)</li>
+        // <li><i class="fa-li fa fa-check-square"></i>can be used</li>
+        // <li><i class="fa-li fa fa-spinner fa-spin"></i>to replace</li>
+        // <li><i class="fa-li fa fa-square"></i>default bullets in lists</li>
+        // </ul>
+        //https://fontawesome.com/versions#list
+
+
+        //Need to take this variable and use the type to show a folder icon in the HTML list when type=dir
+            //<i class="fa fa-folder"></i>
+        //When it is a file it should just create a link that is listed and display an file icon
+            //<i class="fa fa-file-code-o"></i>
         
         // document.getElementById('listContent_outStr').innerHTML = outStr;
-        document.getElementById('listContent_arrNames').innerHTML = arrNames;
-        console.log(arrNames);
+        document.getElementById('listContent_arrNameAndType').innerHTML = arrNameAndType;
+        
 
         var arrPaths = [];
         var contentPath = outObjRepoCont.forEach(function(obj){
@@ -52,11 +71,11 @@
         });
         console.log(arrPaths);
 
-        //pretty print
+        
         function printListAsLink(element){
             return `<li class="page-item"><a class="page-link" href="./${element}">${element}</a></li>`
         }
-        var arrPaths = arrNames.map(printListAsLink);
+        var arrPaths = arrPaths.map(printListAsLink);
         var arrPaths = arrPaths.join("\n");
         
         document.getElementById('listContent_arrPaths').innerHTML = arrPaths;

@@ -4,6 +4,7 @@ function getHtml(template) {
     return template.join('\n');
 }
 
+
 function listify(item){
     return `<li class="page-item"><a class="page-link" href="./${item}">${item}</a></li>`;
 }

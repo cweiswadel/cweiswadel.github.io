@@ -1,36 +1,29 @@
-//import { request } from "https://cdn.skypack.dev/@octokit/request";
-// import request as myModule from "https://cdn.skypack.dev/@octokit/request";
-// import request from 'https://cdn.skypack.dev/@octokit/request.js';
-
-import("https://cdn.skypack.dev/@octokit/request")
-  .then(module => {
-    module.request('GET /repos/{owner}/{repo}/contents/{path}', {
-        owner: "cweiswadel",
-        repo: "cweiswadel.github.io"
-    })
-  })
-  .catch(err => {
-    main.textContent = err.message;
-  });
-
-const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
-console.log(`ghOwner = ${ghOwner} \n ghRepo = ${ghRepo}`);
-
-// var apiCall = await octokit.request(`GET /repos/${ghOwner}/${ghRepo}/contents/`);
-//https://api.github.com/repos/cweiswadel/cweiswadel.github.io/contents/
+var scriptGHOwner = "cweiswadel", scriptGHRepo = "cweiswadel.github.io";
+var outScript = `<script type="module" id="apiCallScript"> 
+import { request } from "https://cdn.skypack.dev/@octokit/request"; 
 
 const reqRes = await request('GET /repos/{owner}/{repo}/contents/{path}', {
-    owner: ghOwner,
-    repo: ghRepo
-})
+    owner: ${scriptGHOwner},
+    repo: ${scriptGHRepo}
+})    
 
-// console.log(`reqRes.data = ${reqRes.data}`);
-
-
-// console.log(`apiCall = ${apiCall} \n typeof apiCall = ${typeof apiCall}`);
 const outObj = reqRes.data;
-console.log(`typeof outObj = \n ${typeof outObj}`);
-var outStrJS = JSON.stringify(outObj, null, 2); // spacing level = 2 & pretty printing for JSON 
-console.log(`outStrJS = \n ${outStrJS}`);
+var outStr = JSON.stringify(outObj, null, 2); // spacing level = 2 & pretty printing for JSON 
 
-document.getElementById('listContentFromJS').innerHTML = outStrJS;
+var arrNames = [];
+var contentName = outObj.forEach(function(obj){
+    arrNames.push(obj.name);
+});
+
+
+document.getElementById('listContent_outStr').innerHTML = outStr;
+document.getElementById('listContent_arrNames').innerHTML = arrNames;
+console.log(arrNames);
+
+</script>`;
+// return document.getElementById('listContent').innerHTML = returnScript();
+
+
+console.log(outScript);
+document.getElementById('scriptGitHub').innerHTML = outScript;
+

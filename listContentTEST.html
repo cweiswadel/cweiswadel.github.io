@@ -14,46 +14,32 @@
     <script src="./util/listContentGitAPI.js"></script> -->
 
     <h4> Raw String output of request</h4>
+    <div id="scriptGitHub"></div>
     <div id="listContent_outStr"></div>
     <div id="listContent_arrNames"></div>
-    <div id="listContent"></div>
     <script type="module" id="apiCallScript"> 
         import { request } from "https://cdn.skypack.dev/@octokit/request"; 
-        // import { list }
         const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
-        console.log(`ghOwner = ${ghOwner} \n ghRepo = ${ghRepo}`);
-
-        // var apiCall = await octokit.request(`GET /repos/${ghOwner}/${ghRepo}/contents/`);
-        //https://api.github.com/repos/cweiswadel/cweiswadel.github.io/contents/
 
         const reqRes = await request('GET /repos/{owner}/{repo}/contents/{path}', {
             owner: ghOwner,
             repo: ghRepo
-        })
-
-        // console.log(`reqRes.data = ${reqRes.data}`);
+        })    
         
-
-        // console.log(`apiCall = ${apiCall} \n typeof apiCall = ${typeof apiCall}`);
         const outObj = reqRes.data;
-        console.log(`typeof outObj = \n ${typeof outObj}`);
         var outStr = JSON.stringify(outObj, null, 2); // spacing level = 2 & pretty printing for JSON 
-        console.log(`outStr = \n ${outStr}`);
-
+        
         var arrNames = [];
         var contentName = outObj.forEach(function(obj){
             arrNames.push(obj.name);
         });
-        console.log(`arrName = ${arrNames}`);
-
-
-        // document.getElementById('listContent_outStr').innerHTML = outStr;
+        
+        
+        document.getElementById('listContent_outStr').innerHTML = outStr;
         document.getElementById('listContent_arrNames').innerHTML = arrNames;
+        console.log(arrNames);
         
     </script>
-
-    <div id="listContentFromJS"></div>
-    <script src="./util/listContentGitAPI.js"></script>
 
 </body>
 

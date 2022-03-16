@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <title> listContentTEST -- CWEISWADEL.GITHUB>IO</title>
+<title> listContentTEST -- CWEISWADEL.GITHUB>IO</title>
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,78 +10,140 @@
 
 <body>
     <h1>Listing Content from the Git Hub Repo</h1>
-    <!-- <div id="listContent"></div>
-    <script src="./util/listContentGitAPI.js"></script> -->
 
-    <h4> Raw String output of request</h4>
-    <div id="scriptGitHub"></div>
-    <div id="listContent_arrNameAndType"></div>
-    <ul id="listContent_arrPaths"></ul>
-    <script type="module" id="apiCallScript"> 
-        import { request } from "https://cdn.skypack.dev/@octokit/request"; 
+    <h4> Showing the Content of the Git Hub Repo in a tree format</h4>
+    
+    <div id="listContent"></div>
+    <script type="module" id="apiCallScript">
+        import { request } from "https://cdn.skypack.dev/@octokit/request";
         // import { request } from "https://cdn.skypack.dev/@octokit/request"; 
         const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
 
-        const repoContent = await request('GET /repos/{owner}/{repo}/contents/{path}', {
-            owner: ghOwner,
-            repo: ghRepo
-        }) 
-        
-        // const branchContent = await request('GET /repos/{owner}/{repo}/branches/{path}', {
-        //     owner: ghOwner,
-        //     repo: ghRepo
-        // }) 
-        
-        const outObjRepoCont = repoContent.data;
-        var outStr = JSON.stringify(outObjRepoCont, null, 2); // spacing level = 2 & pretty printing for JSON 
-        // console.log(outStr);
-        
-        var arrNameAndType = [];
-        var eleObj;
-        var contentName = outObjRepoCont.forEach(function(obj){
-            eleObj = {
-                name: obj.name,
-                type: obj.type
+        //call as let varName = await fetchRepoContent(owner, repo, path (optional but defaults to ""));
+        async function fetchRepoContent(ownerIn, repoIn, pathIn = "") {
+            if (pathIn == "") {
+                let response = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+                    owner: ownerIn,
+                    repo: repoIn
+                })
+                let data = await response.data;
+                // data = JSON.stringify(data);
+                return data;
+            } else {
+                let response = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+                    owner: ownerIn,
+                    repo: repoIn,
+                    path: pathIn
+                })
+                let data = await response.data;
+                // data = JSON.stringify(data);
+                return data;
             }
-            arrNameAndType.push(eleObj);
-        });
-        console.log(arrNameAndType);
-
-        // <ul class="fa-ul">
-        // <li><i class="fa-li fa fa-check-square"></i>List icons (like these)</li>
-        // <li><i class="fa-li fa fa-check-square"></i>can be used</li>
-        // <li><i class="fa-li fa fa-spinner fa-spin"></i>to replace</li>
-        // <li><i class="fa-li fa fa-square"></i>default bullets in lists</li>
-        // </ul>
-        //https://fontawesome.com/versions#list
-
-
-        //Need to take this variable and use the type to show a folder icon in the HTML list when type=dir
-            //<i class="fa fa-folder"></i>
-        //When it is a file it should just create a link that is listed and display an file icon
-            //<i class="fa fa-file-code-o"></i>
-        
-        // document.getElementById('listContent_outStr').innerHTML = outStr;
-        document.getElementById('listContent_arrNameAndType').innerHTML = arrNameAndType;
-        
-
-        var arrPaths = [];
-        var contentPath = outObjRepoCont.forEach(function(obj){
-            arrPaths.push(obj.path);
-        });
-        console.log(arrPaths);
-
-        
-        function printListAsLink(element){
-            return `<li class="page-item"><a class="page-link" href="./${element}">${element}</a></li>`
         }
-        var arrPaths = arrPaths.map(printListAsLink);
-        var arrPaths = arrPaths.join("\n");
-        
-        document.getElementById('listContent_arrPaths').innerHTML = arrPaths;
-        console.log(arrPaths);
-        
+
+        function repoContentToNameAndType(repoContentData) {
+            var arrNameAndType = [];
+            var eleObj;
+            repoContentData.forEach(function (obj) {
+                eleObj = {
+                    name: obj.name,
+                    path: obj.path,
+                    type: obj.type
+                }
+                arrNameAndType.push(eleObj);
+            });
+            return arrNameAndType;
+        }
+
+        function printListItemAsLink(name,path="", type) {
+            if (type == 'dir'){
+                type = 'folder'
+                return `<li> <i class="fa fa-${type}" aria-hidden="true"></i><a class="page-link" href="./${path}">${name}</a></li>`
+            } else {
+                return `<li> <i class="fa fa-${type}" aria-hidden="true"></i><a class="page-link" href="./${path}">${name}</a></li>`
+            }
+            
+        }
+
+        function wrapArrAsListHTML(inArr){
+            var outputArr = [];
+            const ulHeader = "<ul class=\"fa-ul\">", ulFooter = "</ul>"
+            outputArr.push(ulHeader);
+
+            for (let i=0;i<inArr.length;i++){
+                var curVal = inArr[i];
+                var name, type, path, parentDir;
+                if(Array.isArray(curVal)){
+                    name = curVal[0]['parentDir'],path = name, type = 'dir'
+                    outputArr.push(printListItemAsLink(name,path,type));
+                    outputArr.push(ulHeader);
+                    for (let k=0;k<curVal.length;k++){
+                        name = curVal[k]['name'], type = curVal[k]['type'],path=curVal[k]['path'], parentDir = curVal[k]['parentDir'];
+                        outputArr.push(printListItemAsLink(name,path,type));
+                    }
+                    outputArr.push(ulFooter);
+                } else {
+                    name = curVal['name'], type = curVal['type'], path = curVal['path'];
+                    outputArr.push(printListItemAsLink(name,path,type));
+                }
+            } 
+            outputArr.push(ulFooter);
+            return outputArr;
+        }
+
+        function mapParentDir(arr,dir){
+            var newEleObj;
+            var outArr = [];
+            for (let i=0;i<arr.length;i++){
+                var curObj = arr[i];
+                curObj["parentDir"] = dir;
+                outArr.push(curObj);
+                //obj.key3 = "value3";
+            }
+            return outArr;
+        }
+
+        async function expandDirType(nameAndTypeArr){
+            //input is the output from repoContentToNameAndType()
+            //need to create an entire array where it is only an array like [{name1,file},{name2,file},[{name3,file,parentDir},{name4,file,parentDir}],{name5,file}]
+            var outArr = [];
+            for (let i=0;i<nameAndTypeArr.length;i++){
+                var typeVal = nameAndTypeArr[i]['type'];
+                var curVal = nameAndTypeArr[i];
+                if (typeVal == 'dir'){
+                    //identified content is a folder/directory
+                    var subPath = nameAndTypeArr[i]['name']; // need to build a new path for a new github api request to get folders within identified dir
+                    let subRepoContent = await fetchRepoContent(ghOwner, ghRepo, subPath); //api call using dir as {path} var
+                    var subRepoContentArr = repoContentToNameAndType(subRepoContent);  //convert this api get to an array with the {name,file} object list
+                    outArr.push(mapParentDir(subRepoContentArr,subPath));
+                } else {
+                    outArr.push(curVal);
+                }
+            }
+            // console.log(outArr);
+            // console.log(Array.isArray(outArr));
+            return outArr;
+        }
+
+        //functionize the check of type = file or type = dir for putting the sub array into the position when a dir is found in the root repo content arr
+
+        function outHtml(htmlEleArr) {
+            let outHtmlStr = htmlEleArr.join("\n");
+            return outHtmlStr;
+        }
+
+        let rootRepoContent = await fetchRepoContent(ghOwner, ghRepo);
+        var repoContentArr = repoContentToNameAndType(rootRepoContent);
+
+        let expandedDirArr = await expandDirType(repoContentArr);
+
+        let wrappedArr = wrapArrAsListHTML(expandedDirArr);
+
+        const linksOutHTMLStr = outHtml(wrappedArr);
+        document.getElementById('listContent').innerHTML = linksOutHTMLStr;
+
     </script>
+
 
 </body>
 

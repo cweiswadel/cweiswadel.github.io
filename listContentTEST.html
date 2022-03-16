@@ -58,7 +58,7 @@
         function printListItemAsLink(name,path="", type) {
             if (type == 'dir' || type == 'folder'){
                 type = 'folder'
-                return `<li> <i class="fa fa-${type}" aria-hidden="true"></i>${name}</li>`
+                return `<li> <i class="fa fa-${type}" aria-hidden="true"></i>${name}</li>` //do not return a clickable link for dir types
             } else {
                 return `<li> <i class="fa fa-${type}" aria-hidden="true"></i><a class="page-link" href="./${path}">${name}</a></li>`
             }

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <title> Index/Home Page -- CWEISWADEL.GITHUB>IO</title>
+<title> Index/Home Page -- CWEISWADEL.GITHUB>IO</title>
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
@@ -13,11 +15,39 @@
     <p>I'm hosted with GitHub Pages.</p>
 
 
-    <h4> These links are generated via "./util/linkGen.js"</h4>
+    <h4> These links are generated via a built in script (id="apiCallScript")</h4>
     <p> A list of links based on the contents availble in the GitHub repo (.html) files only should be displayed.<br>
         This way a dynamic list is populated and isn't hard coded.</p>
-    <div id="linkList"></div>
-    <script src="./util/linkGen.js"></script>
+    <!-- <div id="linkList"></div>
+    <script src="./util/linkGen.js"></script> -->
+
+    <!-- <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">List group item heading</h5>
+            <small>3 days ago</small>
+          </div>
+          <p class="mb-1">Text_mb-1.</p>
+          <small>Text_small_mb-1</small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">List group item heading</h5>
+            <small class="text-muted">3 days ago</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small class="text-muted">Donec id elit non mi porta.</small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">List group item heading</h5>
+            <small class="text-muted">3 days ago</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small class="text-muted">Donec id elit non mi porta.</small>
+        </a>
+      </div> -->
+
 
     <div id="listContent"></div>
     <script type="module" id="apiCallScript">
@@ -61,46 +91,48 @@
             return arrNameAndType;
         }
 
-        function printListItemAsLink(name,path="", type) {
-            if (type == 'dir' || type == 'folder'){
-                type = 'folder'
-                return `<li> <i class="fa fa-${type}" aria-hidden="true"></i>${name}</li>` //do not return a clickable link for dir types
-            } else {
-                return `<li> <i class="fa fa-${type}" aria-hidden="true"></i><a class="page-link" href="./${path}">${name}</a></li>`
+        //to put for a file directory output (show file/dir icon next to list items)
+        function printListItemAsLink(name, path = "", type,outputType) {
+            if(outputType != 'Page'){
+                if (type == 'dir' || type == 'folder') {
+                    type = 'folder'
+                    return `<li> <i class="fa fa-${type}" aria-hidden="true"></i>${name}</li>` //do not return a clickable link for dir types
+                } else {
+                    return `<li> <i class="fa fa-${type}" aria-hidden="true"></i><a class="page-link" href="./${path}">${name}</a></li>`
+                }
+            } else if (outputType == 'Page'){
+                return `<a class="page-link" href="./${path}">${name}</a>`
             }
-            
         }
 
-        function wrapArrAsListHTML(inArr){
-            var outputArr = [];
-            const ulHeader = "<ul class=\"fa-ul\">", ulFooter = "</ul>"
-            outputArr.push(ulHeader);
 
-            for (let i=0;i<inArr.length;i++){
+        function wrapArrAsListHTML(inArr, outputType) {
+            var outputArr = [];
+            for (let i = 0; i < inArr.length; i++) {
                 var curVal = inArr[i];
-                var name, type, path, parentDir;
-                if(Array.isArray(curVal)){
-                    name = curVal[0]['parentDir'],path = name, type = 'dir'
-                    outputArr.push(printListItemAsLink(name,path,type));
+                var name, type, path, parentDir, splitName;
+                if (Array.isArray(curVal)) {
+                    name = curVal[0]['parentDir'], path = name, type = 'dir'
+                    outputArr.push(printListItemAsLink(name, path, type));
                     outputArr.push(ulHeader);
-                    for (let k=0;k<curVal.length;k++){
-                        name = curVal[k]['name'], type = curVal[k]['type'],path=curVal[k]['path'], parentDir = curVal[k]['parentDir'];
-                        outputArr.push(printListItemAsLink(name,path,type));
+                    for (let k = 0; k < curVal.length; k++) {
+                        name = curVal[k]['name'], type = curVal[k]['type'], path = curVal[k]['path'], parentDir = curVal[k]['parentDir'];
+                        outputArr.push(printListItemAsLink(name, path, type,outputType));
                     }
-                    outputArr.push(ulFooter);
                 } else {
                     name = curVal['name'], type = curVal['type'], path = curVal['path'];
-                    outputArr.push(printListItemAsLink(name,path,type));
+                    splitName = name.split(".")[0]; 
+                    outputArr.push(printListItemAsLink(splitName, path, type,outputType));
                 }
-            } 
-            outputArr.push(ulFooter);
+            }
+            outputArr.push("</br>");
             return outputArr;
         }
 
-        function mapParentDir(arr,dir){
+        function mapParentDir(arr, dir) {
             var newEleObj;
             var outArr = [];
-            for (let i=0;i<arr.length;i++){
+            for (let i = 0; i < arr.length; i++) {
                 var curObj = arr[i];
                 curObj["parentDir"] = dir;
                 outArr.push(curObj);
@@ -109,19 +141,19 @@
             return outArr;
         }
 
-        async function expandDirType(nameAndTypeArr){
+        async function expandDirType(nameAndTypeArr) {
             //input is the output from repoContentToNameAndType()
             //need to create an entire array where it is only an array like [{name1,file},{name2,file},[{name3,file,parentDir},{name4,file,parentDir}],{name5,file}]
             var outArr = [];
-            for (let i=0;i<nameAndTypeArr.length;i++){
+            for (let i = 0; i < nameAndTypeArr.length; i++) {
                 var typeVal = nameAndTypeArr[i]['type'];
                 var curVal = nameAndTypeArr[i];
-                if (typeVal == 'dir'){
+                if (typeVal == 'dir') {
                     //identified content is a folder/directory
                     var subPath = nameAndTypeArr[i]['name']; // need to build a new path for a new github api request to get folders within identified dir
                     let subRepoContent = await fetchRepoContent(ghOwner, ghRepo, subPath); //api call using dir as {path} var
                     var subRepoContentArr = repoContentToNameAndType(subRepoContent);  //convert this api get to an array with the {name,file} object list
-                    outArr.push(mapParentDir(subRepoContentArr,subPath));
+                    outArr.push(mapParentDir(subRepoContentArr, subPath));
                 } else {
                     outArr.push(curVal);
                 }
@@ -138,24 +170,54 @@
             return outHtmlStr;
         }
 
+        function filterForHTMLPage(inArr) {
+            //uses the expandDirType() function array output as the inArr 
+            //this format of array is: [{name:'XX',path:'YY',type:'ZZ'},{name:'AA',path:'BB',type:'CC'}...[{name:'DD',path:'EE',type:'FF',parentDir:'GG'}]...]
+            //should ignore any html elements that are in a directory below, any html stored here should be somehow gated (ex. a editPage1.html should only be accessible via Page1.html)
+            var curVal, name, splitName, indexArr = [], outArr = [];
+            for (let i = 0; i < inArr.length; i++) {
+                curVal = inArr[i]
+                if (Array.isArray(curVal) == false) {
+                    name = curVal['name'];
+                    splitName = name.split('.');
+                    if (splitName[splitName.length - 1] == "html") {
+                        //html file found
+                        indexArr.push(i); // store the index from the inArr for which files are html
+                    }
+                }
+            }
+            indexArr.forEach(element => outArr.push(inArr[element]))
+            return outArr;
+        }
+
         let rootRepoContent = await fetchRepoContent(ghOwner, ghRepo);
-        console.log(rootRepoContent);
         var repoContentArr = repoContentToNameAndType(rootRepoContent);
-        console.log(repoContentArr);
 
         let expandedDirArr = await expandDirType(repoContentArr);
 
-        console.log(expandedDirArr);
-        let wrappedArr = wrapArrAsListHTML(expandedDirArr);
+        let htmlFilteredArr = filterForHTMLPage(expandedDirArr);
 
-        const linksOutHTMLStr = outHtml(wrappedArr);
+        let htmlWrappedArr = wrapArrAsListHTML(htmlFilteredArr,'Page');
+
+        const linksOutHTMLStr = outHtml(htmlWrappedArr);
+
+        // let wrappedArr = wrapArrAsListHTML(expandedDirArr);
+        // const linksOutHTMLStr = outHtml(wrappedArr);
+
         document.getElementById('listContent').innerHTML = linksOutHTMLStr;
 
     </script>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 
 <h4> This homeButton is from "./util/goHome.js" which will return to the index page when clicked</h4>
-<p> The idea here is to have a way to quickly return to the home page while on other pages, which requires it to be generated on other pages. </p>
+<p> The idea here is to have a way to quickly return to the home page while on other pages, which requires it to be
+    generated on other pages. </p>
 <div id="homeButton"></div>
 <script src="./util/goHome.js"></script>
 

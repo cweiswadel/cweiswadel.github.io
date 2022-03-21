@@ -46,7 +46,7 @@ function loadJSON(inFile, callback) {
 }
 
 async function init(inFile) {
-    loadJSON(inFile, function (response) {
+    await loadJSON(inFile, function (response) {
         // Parse JSON string into object
         var outData = JSON.parse(response);
         console.log(outData)

@@ -1,10 +1,44 @@
-[
-    {
-        page: "pageName",
+{
+    "pageDirectory": [
         {
-            pageTitle:"pageTitle",
-            pageHeader:"pageHeader",
-            pageDesc:"pageDescription"
+            "pageName": "home",
+            "pageFile": "index.html",
+            "pageSort": 0,
+            "pageInfo": {
+                "pageTitle": "pageTitle",
+                "pageHeader": "pageHeader",
+                "pageDesc": "pageDescription"
+            }
+        },
+        {
+            "pageName": "1",
+            "pageFile": "page1.html",
+            "pageSort": 1,
+            "pageInfo": {
+                "pageTitle": "pageTitle",
+                "pageHeader": "pageHeader",
+                "pageDesc": "pageDescription"
+            }
+        },
+        {
+            "pageName": "2",
+            "pageFile": "page2.html",
+            "pageSort": 2,
+            "pageInfo": {
+                "pageTitle": "pageTitle",
+                "pageHeader": "pageHeader",
+                "pageDesc": "pageDescription"
+            }
+        },
+        {
+            "pageName": "listContentTEST",
+            "pageFile": "listContentTEST.html",
+            "pageSort": 3,
+            "pageInfo": {
+                "pageTitle": "pageTitle",
+                "pageHeader": "pageHeader",
+                "pageDesc": "pageDescription"
+            }
         }
-    }
-]
+    ]
+}

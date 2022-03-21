@@ -1,7 +1,7 @@
 {
     "pageDirectory": [
         {
-            "pageName": "home",
+            "pageName": "Home",
             "pageFile": "index.html",
             "pageSort": 0,
             "pageInfo": {
@@ -15,9 +15,9 @@
             "pageFile": "page1.html",
             "pageSort": 1,
             "pageInfo": {
-                "pageTitle": "pageTitle",
-                "pageHeader": "pageHeader",
-                "pageDesc": "pageDescription"
+                "pageTitle": "Page 1",
+                "pageHeader": "Page 1",
+                "pageDesc": "Welome to the first page."
             }
         },
         {

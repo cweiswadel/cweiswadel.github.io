@@ -31,7 +31,7 @@ console.log( pageName );
 document.getElementById('curFilePath').innerHTML = wrapAsParaEle(path);
 document.getElementById('curFileName').innerHTML = wrapAsParaEle(page);
 
-function loadJSON(inFile,callback) {   
+async function loadJSON(inFile,callback) {   
 
     var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");

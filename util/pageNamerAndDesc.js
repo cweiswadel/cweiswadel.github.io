@@ -48,7 +48,8 @@ function loadJSON(inFile,callback) {
  function init(inFile) {
     loadJSON(inFile,function(response) {
      // Parse JSON string into object
-       var actual_JSON = JSON.parse(response);
+       var outData = JSON.parse(response);
+       console.log(outData)
     });
    }
 

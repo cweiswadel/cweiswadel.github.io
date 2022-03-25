@@ -11,7 +11,7 @@
             }
         },
         {
-            "pageName": "1",
+            "pageName": "First",
             "pageFile": "page1.html",
             "pageSort": 1,
             "pageInfo": {
@@ -21,13 +21,13 @@
             }
         },
         {
-            "pageName": "2",
+            "pageName": "Second",
             "pageFile": "page2.html",
             "pageSort": 2,
             "pageInfo": {
-                "pageTitle": "pageTitle",
-                "pageHeader": "pageHeader",
-                "pageDesc": "pageDescription"
+                "pageTitle": "Page Dos",
+                "pageHeader": "Zweite Seite",
+                "pageDesc": "Hier finden Sie die zweite Seite dieser Website."
             }
         },
         {

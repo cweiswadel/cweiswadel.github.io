@@ -35,12 +35,7 @@ function htmlEleArrBuilder(){
     return outArr;
 }
 
-//test function to create DIV element purely from JS file 
-function hello(text) {
-    const div = document.createElement('div');
-    div.textContent = `Hello ${text}`;
-    document.body.appendChild(div);
-}
+
 
 //page dir for page configuration json
 const pageDirFile = './config/pageInfo.json';

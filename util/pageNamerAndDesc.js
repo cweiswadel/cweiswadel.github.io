@@ -59,10 +59,15 @@ function requestData(inFile) {
 
 //inputData must be an object //requestData function does that conversion already
 function createPageTitleHTML(inputData) {
+    console.log(inputData);
     const curPath = window.location.pathname;
+    console.log(curPath);
     var dataArr = inputData["pageDirectory"];
+    console.log(dataArr)
     var winPage = curPath.split("/").pop();
-    const foundPageInfo = dataArr.find(element => element['pageFile'] == winPage);
+    console.log(winPage);
+    var foundPageInfo = dataArr.find(element => element['pageFile'] == winPage);
+    console.log(foundPageInfo);
     inPageName = foundPageInfo['pageName'];
     inPageTitle = foundPageInfo['pageInfo']['pageTitle'];
     titleOut = wrapAsTitleEle(`${inPageName} -- ${inPageTitle}`);

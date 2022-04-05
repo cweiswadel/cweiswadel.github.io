@@ -9,5 +9,5 @@ function createW3HomeButton(homeText){
     return `<button class="w3-btn w3-orange w3-xlarge">${homeText}<i class="w3-margin-left fa fa-home"></i></button>`
 }
 
-homeTextStr = `Home`;
+const homeTextStr = `Home`;
 document.getElementById('homeButton').innerHTML = createHrefEle(homeLink, createW3HomeButton(homeTextStr));

@@ -1,0 +1,181 @@
+[
+    {
+        "menuSection": {
+            "menuSectionName": "desserts",
+            "menuItems": [
+                {
+                    "menuItemID": "0001",
+                    "menuItemType": {
+                        "foodType": "donut",
+                        "foodSubType": "cake",
+                        "foodShortName": "Cake Donut"
+                    },
+                    "ppu": 2.5,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            },
+                            {
+                                "id": "1002",
+                                "type": "Chocolates"
+                            },
+                            {
+                                "id": "1003",
+                                "type": "Blueberry"
+                            },
+                            {
+                                "id": "1004",
+                                "type": "Devil's Food"
+                            }
+                        ]
+                    },
+                    "topping": [
+                        {
+                            "id": "5001",
+                            "type": "None"
+                        },
+                        {
+                            "id": "5002",
+                            "type": "Glazed"
+                        },
+                        {
+                            "id": "5005",
+                            "type": "Sugar"
+                        },
+                        {
+                            "id": "5007",
+                            "type": "Powdered Sugar"
+                        },
+                        {
+                            "id": "5006",
+                            "type": "Chocolate with Sprinkles"
+                        },
+                        {
+                            "id": "5003",
+                            "type": "Chocolate"
+                        },
+                        {
+                            "id": "5004",
+                            "type": "Maple"
+                        }
+                    ]
+                },
+                {
+                    "menuItemID": "0002",
+                    "menuItemType": {
+                        "foodType": "donut",
+                        "foodSubType": "raised",
+                        "foodShortName": "Regular Donut"
+                    },
+                    "ppu": 2.0,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            }
+                        ]
+                    },
+                    "topping": [
+                        {
+                            "id": "5001",
+                            "type": "None"
+                        },
+                        {
+                            "id": "5002",
+                            "type": "Glazed"
+                        },
+                        {
+                            "id": "5005",
+                            "type": "Sugar"
+                        },
+                        {
+                            "id": "5003",
+                            "type": "Chocolate"
+                        },
+                        {
+                            "id": "5004",
+                            "type": "Maple"
+                        }
+                    ]
+                },
+                {
+                    "menuItemID": "0003",
+                    "menuItemType": {
+                        "foodType": "donut",
+                        "foodSubType": "old fashioned",
+                        "foodShortName": "Old Fashioned Donut"
+                    },
+                    "ppu": 1.0,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            },
+                            {
+                                "id": "1002",
+                                "type": "Chocolate"
+                            }
+                        ]
+                    },
+                    "topping": [
+                        {
+                            "id": "5001",
+                            "type": "None"
+                        },
+                        {
+                            "id": "5002",
+                            "type": "Glazed"
+                        },
+                        {
+                            "id": "5003",
+                            "type": "Chocolate"
+                        },
+                        {
+                            "id": "5004",
+                            "type": "Maple"
+                        }
+                    ]
+                },
+                {
+                    "menuItemID": "0004",
+                    "menuItemType": {
+                        "foodType": "donut",
+                        "foodSubType": "croissant",
+                        "foodShortName": "Cronut"
+                    },
+                    "ppu": 3.0,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            },
+                            {
+                                "id": "1002",
+                                "type": "Chocolate"
+                            }
+                        ]
+                    },
+                    "topping": [
+                        {
+                            "id": "5001",
+                            "type": "None"
+                        },
+                        {
+                            "id": "5002",
+                            "type": "Glazed"
+                        },
+                        {
+                            "id": "5003",
+                            "type": "Chocolate"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]

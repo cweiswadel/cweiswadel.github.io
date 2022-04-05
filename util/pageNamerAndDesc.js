@@ -1,3 +1,5 @@
+import { requestData } from './requestData_fromFile.js';
+
 //function to take data and wrap in <p> tags
 function wrapAsParaEle(input) {
     return `<p>${input}</p>`;
@@ -35,58 +37,37 @@ function htmlEleArrBuilder(){
     return outArr;
 }
 
-//test function to create DIV element purely from JS file 
-function hello(text) {
-    const div = document.createElement('div');
-    div.textContent = `Hello ${text}`;
-    document.body.appendChild(div);
-}
-
-//page dir for page configuration json
-const pageDirFile = './config/pageInfo.json';
-
-/////////////////////////////////////////////////
-//takes input from a file (reads it as a string), and then returns as obj
-function requestData(inFile) {
-    var request = new XMLHttpRequest(), outObj;
-    request.open('GET', inFile, false);  // `false` makes the request synchronous
-    request.send(null);
-
-    if (request.status === 200) {
-        // console.log(request.responseText);
-        outObj = JSON.parse(request.responseText);
-        return outObj;
-    } else {
-        console.log(`Non successfull GET call: ${request.responseText}`);
-    }
-}
-/////////////////////////////////////////////////
 
 //inputData must be an object //requestData function does that conversion already
 function createPageTitleHTML(inputData) {
+    // console.log(inputData);
     const curPath = window.location.pathname;
+    // console.log(curPath);
     var dataArr = inputData["pageDirectory"];
+    // console.log(dataArr)
     var winPage = curPath.split("/").pop();
-    const foundPageInfo = dataArr.find(element => element['pageFile'] == winPage);
-    inPageName = foundPageInfo['pageName'];
-    inPageTitle = foundPageInfo['pageInfo']['pageTitle'];
-    titleOut = wrapAsTitleEle(`${inPageName} -- ${inPageTitle}`);
+    // console.log(winPage);
+    var foundPageInfo = dataArr.find(element => element['pageFile'] == winPage);
+    // console.log(foundPageInfo);
+    var inPageName = foundPageInfo['pageName'];
+    var inPageTitle = foundPageInfo['pageInfo']['pageTitle'];
+    var titleOut = wrapAsTitleEle(`${inPageName} -- ${inPageTitle}`);
     return titleOut; //returns string for <title> html ele
 }
 
 //build base <body> element containing information from input configuration data(file)
 function createPageBodyBaseHTML(inputData) {
     var curPath = window.location.pathname;
-    console.log(winPageName);
     var winPage = curPath.split("/").pop(); //gives the file name with extension
     var winPageName = curPath.split(".").shift(); //gives the file name header (before the file ext)
+    // console.log(winPageName);
 
     var inPageArr = inputData['pageDirectory'];
     var inPageName, inPageTitle, inPageFile, inPageDesc, inPageFile, inPageHeader;
     var titleOut, arrOut = [];
     for (let i = 0; i < inPageArr.length; i++) {
         inPageFile = inPageArr[i]['pageFile'];
-        console.log(inPageFile);
+        // console.log(inPageFile);
         if (inPageFile == winPage) {
             inPageHeader = inPageArr[i]['pageInfo']['pageHeader'];
             inPageDesc = inPageArr[i]['pageInfo']['pageDesc'];
@@ -100,6 +81,8 @@ function createPageBodyBaseHTML(inputData) {
     return arrOut;
 }
 
+//page dir for page configuration json
+const pageDirFile = './config/pageInfo.json';
 var pageData = requestData(pageDirFile);
 
 var outTitleHTML = createPageTitleHTML(pageData);
@@ -108,5 +91,4 @@ document.getElementById('title').innerHTML = outTitleHTML;
 var bodyHTMLArr = createPageBodyBaseHTML(pageData);
 var outBodyHtml = outHtml(bodyHTMLArr);
 document.getElementById('bodyHTML').innerHTML = outBodyHtml;
-
 

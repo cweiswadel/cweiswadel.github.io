@@ -31,6 +31,16 @@
             }
         },
         {
+            "pageName": "Third",
+            "pageFile": "page3.html",
+            "pageSort": 2,
+            "pageInfo": {
+                "pageTitle": "Page Tres",
+                "pageHeader": "Dritte Seite",
+                "pageDesc": "Hier finden Sie die dritten Seite dieser Website. This is the testing ground for the Menu and Price builder."
+            }
+        },
+        {
             "pageName": "listContentTEST",
             "pageFile": "listContentTEST.html",
             "pageSort": 3,

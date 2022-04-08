@@ -1,6 +1,6 @@
-[
-    {
-        "menuSection": {
+{
+    "menuSections": [
+        {
             "menuSectionName": "desserts",
             "menuItems": [
                 {
@@ -176,6 +176,44 @@
                     ]
                 }
             ]
+        },
+        {
+            "menuSectionName": "drinks",
+            "menuItems": [
+                {
+                    "menuItemID": "0005",
+                    "menuItemType": {
+                        "foodType": "coffee",
+                        "foodSubType": "regular",
+                        "foodShortName": "Hot Pour Over"
+                    },
+                    "ppu": 3.0,
+                    "blend": [
+                        {
+                            "blendId": "8001",
+                            "blendName": "Dark Roast"
+                        },
+                        {
+                            "blendId": "8002",
+                            "blendName": "Medium Roast"
+                        },
+                        {
+                            "blendId": "8003",
+                            "blendName": "Light Roast"
+                        }
+                    ],
+                    "topping": [
+                        {
+                            "id": "6001",
+                            "type": "none"
+                        },
+                        {
+                            "id": "6001",
+                            "type": "Chocolate Drizzle"
+                        }
+                    ]
+                }
+            ]
         }
-    }
-]
+    ]
+}

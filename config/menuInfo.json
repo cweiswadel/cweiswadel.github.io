@@ -174,6 +174,68 @@
                             "type": "Chocolate"
                         }
                     ]
+                },
+                {
+                    "menuItemID": "0005",
+                    "menuItemType": {
+                        "foodType": "croissant",
+                        "foodSubType": "plain",
+                        "foodShortName": "Croissant"
+                    },
+                    "ppu": 2.25,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            }
+                        ]
+                    },
+                    "topping": [
+                        {
+                            "id": "5001",
+                            "type": "None"
+                        },
+                        {
+                            "id": "5007",
+                            "type": "Powdered Sugar"
+                        },
+                        {
+                            "id": "5003",
+                            "type": "Chocolate"
+                        },
+                        {
+                            "id": "5004",
+                            "type": "Maple"
+                        }
+                    ]
+                },
+                {
+                    "menuItemID": "0006",
+                    "menuItemType": {
+                        "foodType": "croissant",
+                        "foodSubType": "filled",
+                        "foodShortName": "Croissant Sandwich"
+                    },
+                    "ppu": 2.25,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            }
+                        ]
+                    },
+                    "filling":[
+                        {
+                            "id":"9001",
+                            "ingredient":"Cheese"
+                        },
+                        {
+                            "id":"9002",
+                            "ingredient":"Ham"
+                        }
+                    ]
                 }
             ]
         },

@@ -27,10 +27,16 @@
         // import { request } from "https://cdn.skypack.dev/@octokit/request"; 
         const ghOwner = "cweiswadel", ghRepo = "cweiswadel.github.io";
 
+        const requestWithAuth = request.defaults({
+            headers:{
+                authorization: "token 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", //token to be changed as needed for authenticated requests 
+            },
+        });
+
         //call as let varName = await fetchRepoContent(owner, repo, path (optional but defaults to ""));
         async function fetchRepoContent(ownerIn, repoIn, pathIn = "") {
             if (pathIn == "") {
-                let response = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+                let response = await requestWithAuth('GET /repos/{owner}/{repo}/contents/{path}', {
                     owner: ownerIn,
                     repo: repoIn
                 })
@@ -38,7 +44,7 @@
                 // data = JSON.stringify(data);
                 return data;
             } else {
-                let response = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+                let response = await requestWithAuth('GET /repos/{owner}/{repo}/contents/{path}', {
                     owner: ownerIn,
                     repo: repoIn,
                     path: pathIn

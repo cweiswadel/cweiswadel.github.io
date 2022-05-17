@@ -16,8 +16,8 @@ function displayMenuRaw(menuOutHTML) {
     anchorElement.appendChild(div);
 }
 
-function capitalize(string){
-    return string.charAt(0).toUpperCase()+string.slice(1);
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 //function to build list of options in the dropdown(select with child option elements)
@@ -87,7 +87,8 @@ function onChangeOfDropDown(selectEleID, displayNodeID, displayText, dataObj) {
             outData = 'No menu selected...yet';
             if (menuSectionName === childNode.value) {
                 console.log(menuSectionName);
-                outData = menuSectionElement;
+                outData = menuSectionElement; //defining the output variable, an object that contains the selected menu section (includes an array of items, and attributes with the items)
+                console.log(`outData:`);
                 console.log(outData);
                 break;
             }
@@ -107,15 +108,16 @@ function onChangeOfDropDown(selectEleID, displayNodeID, displayText, dataObj) {
         parentNode.appendChild(dataNode);
 
         //testing
-        var tableNode = document.createElement('table')
-        tableNode.id = 'menuSecTable';
+
+        var tableNode = document.createElement('table') //create a table node for display of the selected menu sec
+        tableNode.id = 'menuSecTable'; //defining the id of the html element
         console.log(tableNode);
         // console.log(outData);
-        var tableHeader = outData.menuSectionName;
-        var fullDataArr = outData.menuItems;
+        var tableHeader = outData.menuSectionName; //using the object of selected menu, define the variables for display in the table //menuSectionName = Desserts, Drinks, Etc.
+        var fullDataArr = outData.menuItems; //the array of items in this menu section (ALL ITEMs in the specifc section)
         var foodTypesArr = [], foodTypeCtObj = {};
 
-
+        //loop to count the distinct foodTypeName entries //storing it as foodTypeCtObj
         for (let i = 0; i < fullDataArr.length; i++) {
             var foodTypeName = fullDataArr[i].menuItemType.foodType;
             foodTypeCtObj[foodTypeName] = foodTypeCtObj[foodTypeName] ? foodTypeCtObj[foodTypeName] + 1 : 1;
@@ -127,13 +129,36 @@ function onChangeOfDropDown(selectEleID, displayNodeID, displayText, dataObj) {
         console.log(fullDataArr);
         console.log(foodTypesArr);
 
+        //defining the entire length of the table based on number of items 
         var totalColSpan = fullDataArr.length;
 
-        tableNode.setAttribute("class", "table table-hover table-dark");
-        var tableNode_tHead = tableNode.createTHead();
-        var headerMenuSec_tr =  document.createElement('tr');
+        tableNode.setAttribute("class", "table table-hover table-dark"); //setting the class of the tableNode to a predefined bootstrap class
+        var tableNode_tHead = tableNode.createTHead(); //Create THead element for the table header
+        //format of table entries
+        /*
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="3">Main Table Header</th>
+                </tr>
+                <tr>
+                    <th colspan="2">Table Sub-header 1</th>
+                    <th colspan="1">Table Sub-header 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>The table body</td>
+                    <td>with two columns</td>
+                    <td>with 3 columns</td>
+                </tr>
+            </tbody>
+        </table>        
+        */
+
+        var headerMenuSec_tr = document.createElement('tr');
         var headerMenusSec_th = document.createElement('th');
-        headerMenusSec_th.innerHTML = capitalize(tableHeader),headerMenusSec_th.colSpan = totalColSpan, headerMenusSec_th.scope='col', headerMenusSec_th.style.textAlign='center';
+        headerMenusSec_th.innerHTML = capitalize(tableHeader), headerMenusSec_th.colSpan = totalColSpan, headerMenusSec_th.scope = 'col', headerMenusSec_th.style.textAlign = 'center';
         tableNode_tHead.appendChild(headerMenuSec_tr);
         headerMenuSec_tr.appendChild(headerMenusSec_th);
 

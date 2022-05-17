@@ -17,7 +17,7 @@ function wrapAsH1Ele(inStr) {
 
 //function to wrap an array of elements in the <body> tag
 function wrapAsBodyEle(inArr) {
-    outArr = inArr;
+    var outArr = inArr;
     outArr.unshift('<body>'); //add element to beginning of array
     outArr.push('</body>'); //add element to end of array
     return outArr;
@@ -30,13 +30,14 @@ function outHtml(inArr) {
 
 //accepts any amount of arguments and puts all arguments together into a single array
 function htmlEleArrBuilder(){
-    outArr = [];
+    var outArr = [];
     for (let i=0;i<arguments.length;i++){
-        outArr.push(argument[i]);
+        outArr.push(arguments[i]);
     }
     return outArr;
 }
 
+export { outHtml, htmlEleArrBuilder };
 
 //inputData must be an object //requestData function does that conversion already
 function createPageTitleHTML(inputData) {

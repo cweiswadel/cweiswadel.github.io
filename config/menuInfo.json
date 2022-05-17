@@ -1,6 +1,6 @@
-[
-    {
-        "menuSection": {
+{
+    "menuSections": [
+        {
             "menuSectionName": "desserts",
             "menuItems": [
                 {
@@ -174,8 +174,108 @@
                             "type": "Chocolate"
                         }
                     ]
+                },
+                {
+                    "menuItemID": "0005",
+                    "menuItemType": {
+                        "foodType": "croissant",
+                        "foodSubType": "plain",
+                        "foodShortName": "Croissant"
+                    },
+                    "ppu": 2.25,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            }
+                        ]
+                    },
+                    "topping": [
+                        {
+                            "id": "5001",
+                            "type": "None"
+                        },
+                        {
+                            "id": "5007",
+                            "type": "Powdered Sugar"
+                        },
+                        {
+                            "id": "5003",
+                            "type": "Chocolate"
+                        },
+                        {
+                            "id": "5004",
+                            "type": "Maple"
+                        }
+                    ]
+                },
+                {
+                    "menuItemID": "0006",
+                    "menuItemType": {
+                        "foodType": "croissant",
+                        "foodSubType": "filled",
+                        "foodShortName": "Croissant Sandwich"
+                    },
+                    "ppu": 2.25,
+                    "batters": {
+                        "batter": [
+                            {
+                                "id": "1001",
+                                "type": "Regular"
+                            }
+                        ]
+                    },
+                    "filling":[
+                        {
+                            "id":"9001",
+                            "ingredient":"Cheese"
+                        },
+                        {
+                            "id":"9002",
+                            "ingredient":"Ham"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "menuSectionName": "drinks",
+            "menuItems": [
+                {
+                    "menuItemID": "0005",
+                    "menuItemType": {
+                        "foodType": "coffee",
+                        "foodSubType": "regular",
+                        "foodShortName": "Hot Pour Over"
+                    },
+                    "ppu": 3.0,
+                    "blend": [
+                        {
+                            "blendId": "8001",
+                            "blendName": "Dark Roast"
+                        },
+                        {
+                            "blendId": "8002",
+                            "blendName": "Medium Roast"
+                        },
+                        {
+                            "blendId": "8003",
+                            "blendName": "Light Roast"
+                        }
+                    ],
+                    "topping": [
+                        {
+                            "id": "6001",
+                            "type": "none"
+                        },
+                        {
+                            "id": "6001",
+                            "type": "Chocolate Drizzle"
+                        }
+                    ]
                 }
             ]
         }
-    }
-]
+    ]
+}

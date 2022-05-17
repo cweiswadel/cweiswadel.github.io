@@ -6,7 +6,7 @@ function createHrefEle(linkStr, outPutEle){
 }
 
 function createW3HomeButton(homeText){
-    return `<button class="w3-btn w3-orange w3-xlarge">${homeText}<i class="w3-margin-left fa fa-home"></i></button>`
+    return `<button class="w3-btn w3-orange w3-xlarge"; position="absolute"; bottom="0px";>${homeText}<i class="w3-margin-left fa fa-home"></i></button>`
 }
 
 const homeTextStr = `Home`;

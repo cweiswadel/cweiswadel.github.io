@@ -52,6 +52,30 @@ function getNextNodeID(inputNodeID) {
     return siblingEleID;
 }
 
+function createFoodItemTD(foodItem, foodPrice, foodOptionsArr) {
+    var tdEle = document.createElement('td');
+    var selectEle = document.createElement('select');
+    selectEle.id = `${foodItem}_toppings`;
+    var optEle_info = document.createElement('option');
+    optEle_info.id = `${foodItem}_helpText`, optEle_info.value = null, optEle_info.innerHTML = '--Please select topping--';
+    selectEle.appendChild(optEle_info);
+    if (Array.isArray(foodOptionsArr) != true) {
+        //the toppings is not an array or does not exist
+        selectEle.remove();
+    } else {
+        for (let i = 0; i < foodOptionsArr.length; i++) {
+
+            var optEle_loop = document.createElement('option');
+            optEle_loop.id = `${foodItem}_${foodOptionsArr[i]}`, optEle_loop.innerHTML = `${foodOptionsArr[i]}`;
+            selectEle.appendChild(optEle_loop);
+        }
+    }
+    var innerTextContent = `${foodItem} \n $${foodPrice} \n`;
+    tdEle.innerText = innerTextContent;
+    tdEle.appendChild(selectEle);
+    return tdEle;
+}
+
 // function formatMenuSelectionDataObj_forTable(menuSectionObj) {
 //     if(menuSectionObj==undefined){
 //         //menuSectionObj has been initialized yet
@@ -96,6 +120,7 @@ function onChangeOfDropDown(selectEleID, displayNodeID, displayText, dataObj) {
         // console.log(JSON.stringify(outData, null, 2));
         dataNode.innerHTML = outData;
         dataNode.id = 'rawDataNode';
+        console.log(dataNode);
 
         //since this function is ONCHANGE, remove any listed choices and then re-append/display the newest choice
         //this while loop clears ALL child nodes from parentNode
@@ -118,71 +143,93 @@ function onChangeOfDropDown(selectEleID, displayNodeID, displayText, dataObj) {
         var foodTypesArr = [], foodTypeCtObj = {};
 
         //loop to count the distinct foodTypeName entries //storing it as foodTypeCtObj
-        for (let i = 0; i < fullDataArr.length; i++) {
-            var foodTypeName = fullDataArr[i].menuItemType.foodType;
-            foodTypeCtObj[foodTypeName] = foodTypeCtObj[foodTypeName] ? foodTypeCtObj[foodTypeName] + 1 : 1;
-        }
-
-        console.log(foodTypeCtObj);
-
-        console.log(tableHeader);
         console.log(fullDataArr);
-        console.log(foodTypesArr);
+        if (fullDataArr != undefined) {
+            for (let i = 0; i < fullDataArr.length; i++) {
+                var foodTypeName = fullDataArr[i].menuItemType.foodType;
+                foodTypeCtObj[foodTypeName] = foodTypeCtObj[foodTypeName] ? foodTypeCtObj[foodTypeName] + 1 : 1;
+            }
 
-        //defining the entire length of the table based on number of items 
-        var totalColSpan = fullDataArr.length;
 
-        tableNode.setAttribute("class", "table table-hover table-dark"); //setting the class of the tableNode to a predefined bootstrap class
-        var tableNode_tHead = tableNode.createTHead(); //Create THead element for the table header
-        //format of table entries
-        /*
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="3">Main Table Header</th>
-                </tr>
-                <tr>
-                    <th colspan="2">Table Sub-header 1</th>
-                    <th colspan="1">Table Sub-header 2</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>The table body</td>
-                    <td>with two columns</td>
-                    <td>with 3 columns</td>
-                </tr>
-            </tbody>
-        </table>        
-        */
 
-        var headerMenuSec_tr = document.createElement('tr');
-        var headerMenusSec_th = document.createElement('th');
-        headerMenusSec_th.innerHTML = capitalize(tableHeader), headerMenusSec_th.colSpan = totalColSpan, headerMenusSec_th.scope = 'col', headerMenusSec_th.style.textAlign = 'center';
-        tableNode_tHead.appendChild(headerMenuSec_tr);
-        headerMenuSec_tr.appendChild(headerMenusSec_th);
+            console.log(foodTypeCtObj); //object which shows the menuItemType.foodType and count of such from fullDataArr
 
-        // var headerFoodTypeRow;
-        var headerFoodType_tr = document.createElement('tr');
-        for (const [foodTypeName, count] of Object.entries(foodTypeCtObj)) {
-            console.log(`${foodTypeName} : ${count}`);
-            var headerFoodType_th = document.createElement('th');
-            headerFoodType_th.colSpan = count, headerFoodType_th.innerText = capitalize(foodTypeName);
-            console.log(headerFoodType_th.innerHtml);
-            headerFoodType_tr.appendChild(headerFoodType_th);
+            console.log(tableHeader);
+            console.log(fullDataArr); //fullDataArr for selected menu
+            console.log(foodTypesArr);
+
+            //defining the entire length of the table based on number of items 
+            var totalColSpan = fullDataArr.length;
+
+            tableNode.setAttribute("class", "table table-hover table-dark"); //setting the class of the tableNode to a predefined bootstrap class
+            var tableNode_tHead = tableNode.createTHead(); //Create THead element for the table header
+            var headerMenuSec_tr = document.createElement('tr'); //creating table row entry for menu section header
+            var headerMenusSec_th = document.createElement('th'); //creating table header row entry for menu section header, following schema above
+
+            headerMenusSec_th.innerHTML = capitalize(tableHeader), headerMenusSec_th.colSpan = totalColSpan, headerMenusSec_th.scope = 'col', headerMenusSec_th.style.textAlign = 'center';
+
+            tableNode_tHead.appendChild(headerMenuSec_tr); //add the tr element onto the thead element
+            headerMenuSec_tr.appendChild(headerMenusSec_th); //add the th element onto the tr element
+
+            //loop to create the th elements as needed for the different food types
+            var headerFoodType_tr = document.createElement('tr'); //create a tr to nest all the th elements into
+            for (const [foodTypeName, count] of Object.entries(foodTypeCtObj)) { //read from the entries in the foodTypeCtObj for the th inner texts and col span
+                console.log(`${foodTypeName} : ${count}`);
+                var headerFoodType_th = document.createElement('th');
+                headerFoodType_th.colSpan = count, headerFoodType_th.innerText = capitalize(foodTypeName), headerFoodType_th.id = foodTypeName;
+                console.log(headerFoodType_th);
+                headerFoodType_tr.appendChild(headerFoodType_th); //nest the th within the tr
+            }
+            tableNode_tHead.appendChild(headerFoodType_tr); // add the newly created tr into the thead
+
+            var menuSecItem_tbody = tableNode.createTBody();
+            var menuSecItem_tr = document.createElement('tr'); //table row entry for the list of td items for the selected menu
+            menuSecItem_tbody.appendChild(menuSecItem_tr);
+
+            //fullDataArr contains all the info for the selected menu
+            //info needed to show: foodShortName, ppu, then dropdown for toppings
+            let foodItemsArr = [], foodItemObj = {};
+
+            //breaking down the fullDataArr for the values needed to display the menu
+            //storing it as an array foodItemsArr of all items belonging to the selected menu
+            for (let i = 0; i < fullDataArr.length; i++) {
+                var foodShortName = fullDataArr[i].menuItemType.foodShortName; //display name
+                var foodType = fullDataArr[i].menuItemType.foodType; //foodtype 
+                var foodPPU = fullDataArr[i].ppu; //price 
+                var foodToppingObjArr = fullDataArr[i].topping; //arr containing ID of toppings, and topping
+
+                //breaking down the foodToppingObjArr to only get toppings for food item
+                var foodToppingArr = [];
+                if (Array.isArray(foodToppingObjArr) == true) {
+                    foodToppingObjArr.forEach(element =>
+                        foodToppingArr.push(element.type));
+                } else {
+                    foodToppingArr = ['None']; //default the value of the topping array to None if undefined/not an array
+                }
+
+                //create an object to pull from for creation of the html elements
+                foodItemObj = {
+                    foodItemType: foodType, //type
+                    foodItemdisplayName: foodShortName, //display name
+                    foodItemPrice: foodPPU, //price
+                    foodToppings: foodToppingArr //arr of ONLY toppings matching the item 
+                };
+                foodItemsArr.push(foodItemObj);
+            }
+            console.log(foodItemsArr);
+
+            //running through the foodItemsArr to populate the hTML TD element with the function createFoodItemTD
+            for (let i = 0; i < foodItemsArr.length; i++) {
+                var foodItem = foodItemsArr[i].foodItemdisplayName; //item name
+                var foodPrice = foodItemsArr[i].foodItemPrice; //item price
+                var foodOptionsArr = foodItemsArr[i].foodToppings; //item toppings --> used to create a dropdown of options available 
+                console.log(createFoodItemTD(foodItem, foodPrice, foodOptionsArr));
+                menuSecItem_tr.append(createFoodItemTD(foodItem, foodPrice, foodOptionsArr));
+                var menuSecItem_td = document.createElement('td'); //table data entry for the items found in the selected menu section
+            }
+
+            parentNode.appendChild(tableNode);
         }
-        tableNode_tHead.appendChild(headerFoodType_tr);
-
-        // headerMenuCell.innerHTML = tableHeader;
-
-        // var headerFoodTypeRow = headerMenuSec.insertRow(1);
-
-        // for(let i=0; i<totalColSpan; i++){
-
-
-        // }
-
-        parentNode.appendChild(tableNode);
 
 
 

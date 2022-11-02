@@ -34,10 +34,13 @@
         //     },
         // });
 
+
         //call as let varName = await fetchRepoContent(owner, repo, path (optional but defaults to ""));
         async function fetchRepoContent(ownerIn, repoIn, pathIn = "") {
+            console.log("Awaiting response from GitHub API");
             if (pathIn == "") {
-                let response = await requestWithAuth('GET /repos/{owner}/{repo}/contents/{path}', {
+                let response = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+                // let response = await requestWithAuth('GET /repos/{owner}/{repo}/contents/{path}', { //to make authenticated call, uncomment this and the requestWithAuth block (with token added to make auth calls)
                     owner: ownerIn,
                     repo: repoIn
                 })
@@ -45,7 +48,8 @@
                 // data = JSON.stringify(data);
                 return data;
             } else {
-                let response = await requestWithAuth('GET /repos/{owner}/{repo}/contents/{path}', {
+                let response = await request('GET /repos/{owner}/{repo}/contents/{path}', {
+                // let response = await requestWithAuth('GET /repos/{owner}/{repo}/contents/{path}', { //to make authenticated call, uncomment this and the requestWithAuth block (with token added to make auth calls)
                     owner: ownerIn,
                     repo: repoIn,
                     path: pathIn
@@ -169,7 +173,10 @@
             return outArr;
         }
 
+        console.log('Calling Request API...');
         let rootRepoContent = await fetchRepoContent(ghOwner, ghRepo);
+        console.log(rootRepoContent)
+        console.log('Data received from GitHub API!')
         var repoContentArr = repoContentToNameAndType(rootRepoContent);
 
         let expandedDirArr = await expandDirType(repoContentArr);

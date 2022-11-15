@@ -10,7 +10,7 @@ function requestData(inFile) {
         outObj = JSON.parse(request.responseText);
         return outObj;
     } else {
-        console.log(`Non successfull GET call: ${request.responseText}`);
+        console.log(`Non successful GET call: ${request.responseText}`);
     }
 }
 export { requestData };
